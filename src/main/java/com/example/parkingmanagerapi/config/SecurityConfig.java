@@ -2,11 +2,13 @@ package com.example.parkingmanagerapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @EnableWebSecurity
@@ -16,10 +18,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Désactive la protection CSRF (inutile pour les API REST stateless)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // On autorise tout le monde à accéder aux routes d'authentification
+                        // On autorise spécifiquement les POST sur /signup et /signin
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        // On laisse passer tout ce qui commence par /api/auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        // Tout le reste nécessite d'être connecté
                         .anyRequest().authenticated()
                 );
 
