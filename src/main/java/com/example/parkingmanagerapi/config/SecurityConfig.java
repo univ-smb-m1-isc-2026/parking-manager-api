@@ -1,6 +1,6 @@
 package com.example.parkingmanagerapi.config;
 
-import com.example.parkingmanagerapi.repository.EntrepriseRepository;
+import com.example.parkingmanagerapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
-    private EntrepriseRepository repository;
+    private UserRepository repository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

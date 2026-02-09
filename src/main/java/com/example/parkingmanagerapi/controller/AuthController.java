@@ -1,26 +1,39 @@
 package com.example.parkingmanagerapi.controller;
 
+import com.example.parkingmanagerapi.dto.RegisterEntrepriseRequest;
 import com.example.parkingmanagerapi.entity.Entreprise;
+import com.example.parkingmanagerapi.repository.EntrepriseRepository;
+import com.example.parkingmanagerapi.entity.User;
+import com.example.parkingmanagerapi.repository.UserRepository;
 import com.example.parkingmanagerapi.service.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+    private final UserRepository userRepository;
+    private final EntrepriseRepository entrepriseRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @PostMapping("/signup")
-    public String signUp(@RequestBody Entreprise entreprise) {
-        return authService.register(entreprise);
+    @PostMapping("/register-entreprise")
+    public String registerBoss(@RequestBody RegisterEntrepriseRequest request) {
+        // 1. Créer l'entreprise (on peut aussi mettre ça dans le service)
+        Entreprise ent = new Entreprise();
+        ent.setNom(request.getNomEntreprise());
+        ent = entrepriseRepository.save(ent);
+
+        // 2. Appeler le service qui va hacher et sauvegarder le patron
+        return authService.registerBoss(request, ent);
     }
 
-    @PostMapping("/signin")
-    public String signIn(@RequestBody Entreprise loginRequest) {
-        // Ici on réutilise l'objet Entreprise pour récupérer mail et password
-        // (Dans un vrai projet, on utiliserait un DTO spécifique genre "LoginRequest")
+    @PostMapping("/login-entreprise")
+    public String signIn(@RequestBody User loginRequest) {
         return authService.login(loginRequest.getMail(), loginRequest.getPassword());
     }
 }
