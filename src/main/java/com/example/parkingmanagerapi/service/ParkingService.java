@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +56,13 @@ public class ParkingService {
                 .stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    public Optional<ParkingDTO> findParking(String id) {
+        Long parkingId = Long.parseLong(id);
+        System.out.println("Parking id : " + parkingId);
+        return parkingRepository.findById(parkingId)
+                .map(this::toDto);
     }
 }
 
