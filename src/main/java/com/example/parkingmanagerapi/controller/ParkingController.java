@@ -21,9 +21,14 @@ public class ParkingController {
         return parkingService.creerParking(request);
     }
 
-    @GetMapping("/getParking/{parkingId}")
-    public Optional<ParkingDTO> getParking(@PathVariable String parkingId) {
+    @GetMapping("/getParkingById/{parkingId}")
+    public Optional<ParkingDTO> getParkingById(@PathVariable String parkingId) {
         return parkingService.findParking(parkingId);
+    }
+
+    @GetMapping("/getParkingByEntreprise/{entrepriseId}")
+    public List<ParkingDTO> getParkingByEntreprise(@PathVariable String entrepriseId) {
+        return parkingService.findParkingByEntreprise(entrepriseId);
     }
 
     @GetMapping("/getAllParking")

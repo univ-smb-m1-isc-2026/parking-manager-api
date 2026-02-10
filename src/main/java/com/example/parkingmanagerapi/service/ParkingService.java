@@ -60,9 +60,17 @@ public class ParkingService {
 
     public Optional<ParkingDTO> findParking(String id) {
         Long parkingId = Long.parseLong(id);
-        System.out.println("Parking id : " + parkingId);
         return parkingRepository.findById(parkingId)
                 .map(this::toDto);
+    }
+
+
+    public List<ParkingDTO> findParkingByEntreprise(String id) {
+        Long entrepriseId = Long.parseLong(id);
+        return parkingRepository.findAllByEntreprise_IdEntreprise(entrepriseId)
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 }
 
