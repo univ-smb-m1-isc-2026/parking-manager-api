@@ -1,7 +1,6 @@
 package com.example.parkingmanagerapi.entity;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
 
 @Entity
 @Data
