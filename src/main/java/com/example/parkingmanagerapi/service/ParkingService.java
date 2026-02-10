@@ -72,5 +72,17 @@ public class ParkingService {
                 .map(this::toDto)
                 .toList();
     }
+
+    public void suppParking(String parkingId) {
+        Long id = Long.parseLong(parkingId);
+
+        if (!parkingRepository.existsById(id)) {
+            throw new RuntimeException("Parking not found");
+        }
+
+        parkingRepository.deleteById(id);
+    }
+
+
 }
 

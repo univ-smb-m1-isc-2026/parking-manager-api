@@ -36,4 +36,9 @@ public class ParkingController {
         return parkingService.findAllParkings();
     }
 
+    @GetMapping("/deleteParking/{parkingId}")
+    public void deleteParking(@PathVariable String parkingId) {
+        parkingService.suppParking(parkingId);
+    }
+
 }
