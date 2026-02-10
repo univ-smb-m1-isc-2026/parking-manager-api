@@ -3,7 +3,7 @@ package com.example.parkingmanagerapi.dto;
 import lombok.Data;
 
 @Data
-public class AddParkingRequest {
+public class ParkingRequest {
     private String name;
     private String description;
     private String linkMaps;

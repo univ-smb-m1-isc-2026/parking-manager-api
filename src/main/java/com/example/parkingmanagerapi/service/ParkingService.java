@@ -1,6 +1,6 @@
 package com.example.parkingmanagerapi.service;
 
-import com.example.parkingmanagerapi.dto.AddParkingRequest;
+import com.example.parkingmanagerapi.dto.ParkingRequest;
 import com.example.parkingmanagerapi.dto.ParkingDTO;
 import com.example.parkingmanagerapi.entity.Entreprise;
 import com.example.parkingmanagerapi.entity.Parking;
@@ -22,7 +22,7 @@ public class ParkingService {
     @Autowired
     private final EntrepriseRepository entrepriseRepository;
 
-    public String creerParking(AddParkingRequest request) {
+    public String creerParking(ParkingRequest request) {
 
         Entreprise entreprise = entrepriseRepository.findById(request.getEntrepriseId())
                 .orElseThrow(() -> new RuntimeException("Entreprise not found"));
@@ -37,6 +37,26 @@ public class ParkingService {
 
         return "Parking ajouter";
     }
+
+    public ParkingDTO updateParking(Long parkingId, ParkingRequest request) {
+
+        Parking parking = parkingRepository.findById(parkingId)
+                .orElseThrow(() -> new RuntimeException("Parking not found"));
+
+        parking.setName(request.getName());
+        parking.setDescription(request.getDescription());
+        parking.setLinkMaps(request.getLinkMaps());
+
+        if (request.getEntrepriseId() != null) {
+            Entreprise entreprise = entrepriseRepository.findById(request.getEntrepriseId())
+                    .orElseThrow(() -> new RuntimeException("Entreprise not found"));
+            parking.setEntreprise(entreprise);
+        }
+
+        Parking updated = parkingRepository.save(parking);
+        return toDto(updated);
+    }
+
 
     public ParkingDTO toDto(Parking parking) {
         ParkingDTO dto = new ParkingDTO();

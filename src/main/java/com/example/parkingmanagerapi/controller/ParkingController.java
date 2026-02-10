@@ -1,6 +1,6 @@
 package com.example.parkingmanagerapi.controller;
 
-import com.example.parkingmanagerapi.dto.AddParkingRequest;
+import com.example.parkingmanagerapi.dto.ParkingRequest;
 import com.example.parkingmanagerapi.dto.ParkingDTO;
 import com.example.parkingmanagerapi.service.ParkingService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,18 @@ public class ParkingController {
     private final ParkingService parkingService;
 
     @PostMapping("/addParking")
-    public String addParking(@RequestBody AddParkingRequest request) {
+    public String addParking(@RequestBody ParkingRequest request) {
         return parkingService.creerParking(request);
     }
+
+    @PutMapping("/{id}")
+    public ParkingDTO editParking(
+            @PathVariable Long id,
+            @RequestBody ParkingRequest request
+    ) {
+        return parkingService.updateParking(id, request);
+    }
+
 
     @GetMapping("/getParkingById/{parkingId}")
     public Optional<ParkingDTO> getParkingById(@PathVariable String parkingId) {
