@@ -21,7 +21,7 @@ public class ParkingController {
         return parkingService.creerParking(request);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editParking/{id}")
     public ParkingDTO editParking(
             @PathVariable Long id,
             @RequestBody ParkingRequest request
@@ -45,7 +45,7 @@ public class ParkingController {
         return parkingService.findAllParkings();
     }
 
-    @GetMapping("/deleteParking/{parkingId}")
+    @DeleteMapping("/deleteParking/{parkingId}")
     public void deleteParking(@PathVariable String parkingId) {
         parkingService.suppParking(parkingId);
     }
