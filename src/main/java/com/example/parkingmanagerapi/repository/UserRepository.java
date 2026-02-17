@@ -13,4 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Pour vérifier si un mail existe déjà lors du sign-in
     boolean existsByMail(String mail);
     Optional<User> findByMail(String mail);
+    List<User> findByEntrepriseIdEntreprise(Long idEntreprise);
 }
