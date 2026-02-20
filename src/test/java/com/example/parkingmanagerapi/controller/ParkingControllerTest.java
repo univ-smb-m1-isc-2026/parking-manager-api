@@ -14,12 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +64,7 @@ class ParkingControllerTest {
 
         // Exécution et vérification
         mockMvc.perform(post("/api/parking/addParking")
-                        .with(csrf()) //ajoute un jeton CSRF valide à la requête de test
+                        .with(csrf()) //ajoute un jeton CSRF valide à la requête de test (pas necessaire pour les get)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))) // Conversion de l'objet DTO en String JSON
                 .andExpect(status().isOk()); // On vérifie que le contrôleur répond bien 200 (OK)
@@ -102,9 +104,64 @@ class ParkingControllerTest {
                 .thenReturn(Optional.of(mockResponse));
 
         mockMvc.perform(get("/api/parking/getParkingById/{id}", parkingId)
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(mockResponse.getName()));
+    }
+
+
+    @Test
+    @WithMockUser
+    void call_endpoint_GetParkingByEntreprise_and_should_return_200() throws Exception {
+        String entrepriseId = "1";
+
+        ParkingDTO mockResponse = new ParkingDTO();
+        mockResponse.setName("Parking Nord");
+        mockResponse.setEntrepriseId(1L);
+
+        List<ParkingDTO> list = List.of(mockResponse);
+
+        Mockito.when(parkingService.findParkingByEntreprise(Mockito.anyString()))
+                .thenReturn(list);
+
+        mockMvc.perform(get("/api/parking/getParkingByEntreprise/{entrepriseId}", entrepriseId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Parking Nord"))
+                .andExpect(jsonPath("$[0].entrepriseId").value(1));
+    }
+
+    @Test
+    @WithMockUser
+    void call_endpoint_GetAllParking_and_should_return_200() throws Exception {
+        ParkingDTO mockResponse = new ParkingDTO();
+        mockResponse.setName("Parking Nord");
+        mockResponse.setEntrepriseId(1L);
+
+        List<ParkingDTO> list = List.of(mockResponse);
+
+        Mockito.when(parkingService.findAllParkings())
+                .thenReturn(list);
+
+        mockMvc.perform(get("/api/parking/getAllParking")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Parking Nord"))
+                .andExpect(jsonPath("$[0].entrepriseId").value(1));
+    }
+
+
+    @Test
+    @WithMockUser
+    void call_endpoint_DeleteParking_and_should_return_200() throws Exception {
+        String parkingId = "1";
+
+        Mockito.doNothing() //parce que la méthode return void
+                .when(parkingService)
+                .suppParking(Mockito.anyString());
+
+        mockMvc.perform(delete("/api/parking/deleteParking/{parkingId}", parkingId)
+                        .with(csrf()))
+                .andExpect(status().isOk());
     }
 }
