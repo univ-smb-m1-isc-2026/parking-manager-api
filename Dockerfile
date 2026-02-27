@@ -1,5 +1,5 @@
 # Étape 1 : Utiliser une image JRE légère pour l'exécution
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-alpine
   
   # Dossier de travail dans le conteneur
 WORKDIR /app
