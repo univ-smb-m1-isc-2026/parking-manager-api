@@ -32,6 +32,7 @@ jobs:
         run: mvn -B verify --file pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JWT_SECRET_KEY_TEST: ${{ secrets.JWT_SECRET_KEY_TEST }}
       #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Log in to the Container registry
