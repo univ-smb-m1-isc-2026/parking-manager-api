@@ -32,3 +32,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Docker data
+postgres_data/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+docker-compose.yml
