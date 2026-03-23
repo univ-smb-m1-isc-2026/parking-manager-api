@@ -47,7 +47,9 @@ public class AuthService {
             // Vérifier si le mot de passe correspond au hash en BDD
             if (passwordEncoder.matches(password, user.getPassword())) {
                 // Générer le token
-                return jwtService.generateToken(mail);
+                Long idEntreprise = user.getEntreprise().getIdEntreprise();
+                String prenom = user.getName();
+                return jwtService.generateToken(mail, idEntreprise, prenom);
             }
         }
         throw new RuntimeException("Identifiants invalides");
