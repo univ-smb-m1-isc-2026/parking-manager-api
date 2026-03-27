@@ -40,8 +40,7 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://localhost",
                 "http://localhost:80",
-                "https://parking-manager.oups.net",
-                "*"
+                "https://parking-manager.oups.net"
         ));        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
