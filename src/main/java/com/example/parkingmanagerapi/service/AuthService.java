@@ -49,7 +49,8 @@ public class AuthService {
                 // Générer le token
                 Long idEntreprise = user.getEntreprise().getIdEntreprise();
                 String prenom = user.getName();
-                return jwtService.generateToken(mail, idEntreprise, prenom);
+                String status = user.getStatus().toString();
+                return jwtService.generateToken(mail, idEntreprise, prenom, status);
             }
         }
         throw new RuntimeException("Identifiants invalides");
