@@ -3,6 +3,8 @@ package com.example.parkingmanagerapi.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "Place")
@@ -24,4 +26,9 @@ public class Place {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Parking_id", nullable = false)
     private Parking parking;
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+    private List<PeriodeDispo> periodes;
+    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+    private List<DemandePlacePermanante> demandes;
 }
