@@ -20,25 +20,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 )
 public class HelloController {
 
-
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final ChuckFactsService chuckFactsService;
-
-    public ChuckFactsController(ChuckFactsService chuckFactsService) {
-        this.chuckFactsService = chuckFactsService;
-    }
-
-
-    @GetMapping(value = "/api/chuck-facts")
-    public List<String> facts() {
-        logger.info("Serving Facts");
-        return chuckFactsService.facts()
-                .stream()
-                .map(p -> p.getName())
-                .collect(toList());
-    }
-
     @Autowired
     private HelloRepository helloRepository;
 
