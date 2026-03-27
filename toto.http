@@ -1,0 +1,102 @@
+### --- AUTHENTICATION ---
+
+### Register Entreprise + User
+POST {{baseUrl}}/api/auth/register-entreprise
+Content-Type: application/json
+
+{
+  "name": "Bob",
+  "surname": "Leroi",
+  "mail": "lenny.loy@gmail.com",
+  "password": "Password123!",
+  "nomEntreprise": "TrueCodeMinds Inc."
+}
+
+### Login et récupération automatique du Token
+POST {{baseUrl}}/api/auth/login-entreprise
+Content-Type: application/json
+
+{
+  "mail": "lenny.loy@gmail.com",
+  "password": "Password123!"
+}
+
+> {%
+    client.global.set("authToken", response.body);
+    client.log("✅ Token texte brut capturé avec succès !");
+    client.log("Valeur : " + client.global.get("authToken"));
+%}
+
+### --- PARKING ---
+
+### Ajouter un Parking
+POST {{baseUrl}}/api/parking/addParking
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Parking Sud",
+  "description": "Un peu gluant mais appetissant",
+  "linkMaps": "http://google.com/maps/1",
+  "entrepriseId": 1
+}
+
+### Récupérer tous les parkings
+GET {{baseUrl}}/api/parking/getAllParking
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Cache-Control: no-cache
+
+### Supprimer un parking (Exemple ID 2)
+DELETE {{baseUrl}}/api/parking/deleteParking/2
+Authorization: Bearer {{authToken}}
+
+### --- PLACES ---
+
+### Générer des places pour un parking
+POST {{baseUrl}}/api/place/generer
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "parkingId": 1,
+  "quantite": 15
+}
+
+### --- DEMANDES PERMANANTES ---
+
+### Créer une demande
+POST {{baseUrl}}/api/demandePermanante
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "user": { "idUser": 1 },
+  "entreprise": { "idEntreprise": 1 },
+  "place": { "idPlace": 1 }
+}
+
+### Accepter une demande (ID 1)
+PATCH {{baseUrl}}/api/demandePermanante/1/accepter
+Authorization: Bearer {{authToken}}
+
+### Refuser une demande (ID 1)
+PATCH {{baseUrl}}/api/demandePermanante/1/refuser
+Authorization: Bearer {{authToken}}
+
+### --- PERIODES DISPO ---
+
+### Ajouter une période de disponibilité
+POST {{baseUrl}}/api/periodes
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "start": "2026-04-01T08:00:00",
+  "end": "2026-04-01T18:00:00",
+  "place": { "idPlace": 1 }
+}
+
+### Supprimer une période (ID 1)
+DELETE {{baseUrl}}/api/periodes/1
+Authorization: Bearer {{authToken}}
