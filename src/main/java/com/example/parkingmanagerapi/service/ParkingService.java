@@ -6,6 +6,7 @@ import com.example.parkingmanagerapi.entity.Entreprise;
 import com.example.parkingmanagerapi.entity.Parking;
 import com.example.parkingmanagerapi.repository.EntrepriseRepository;
 import com.example.parkingmanagerapi.repository.ParkingRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,7 @@ public class ParkingService {
                 .toList();
     }
 
+    @Transactional
     public void suppParking(String parkingId) {
         Long id = Long.parseLong(parkingId);
 
