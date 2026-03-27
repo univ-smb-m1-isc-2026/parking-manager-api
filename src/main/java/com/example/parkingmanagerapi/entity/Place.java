@@ -1,0 +1,27 @@
+package com.example.parkingmanagerapi.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "Place")
+public class Place {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idPlace;
+
+    private String numero;
+
+    private boolean etat;
+    private Integer tarifAnnuel;
+    private Integer tarifJournalier;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "User_id", nullable = true)
+    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Parking_id", nullable = false)
+    private Parking parking;
+}
