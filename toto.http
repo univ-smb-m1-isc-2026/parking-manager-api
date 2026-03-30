@@ -60,7 +60,9 @@ Content-Type: application/json
 
 {
   "parkingId": 1,
-  "quantite": 15
+  "quantite": 15,
+  "tarifJournalier": 15,
+  "tarifAnnuel":200
 }
 
 ### --- DEMANDES PERMANANTES ---

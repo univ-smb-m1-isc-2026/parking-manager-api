@@ -6,4 +6,6 @@ import lombok.Data;
 public class GenerationPlaceRequest {
     private Long parkingId;
     private int quantite;
+    private int tarifJournalier;
+    private int tarifAnnuel;
 }

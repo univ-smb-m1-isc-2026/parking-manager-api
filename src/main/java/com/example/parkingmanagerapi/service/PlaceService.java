@@ -22,7 +22,7 @@ public class PlaceService {
     private final UserRepository userRepository;
 
     @Transactional
-    public List<Place> creerMultiplePlaces(Long parkingId, int nombreDePlaces) {
+    public List<Place> creerMultiplePlaces(Long parkingId, int nombreDePlaces, int tarifAnnuel, int tarifJournalier) {
         System.out.println("Tentative de création : ParkingID=" + parkingId + ", Quantité=" + nombreDePlaces);
 
         if (parkingId == null) {
@@ -40,8 +40,8 @@ public class PlaceService {
             place.setParking(parking);
             place.setUser(null);
             place.setEtat(false);
-            place.setTarifAnnuel(0);
-            place.setTarifJournalier(0);
+            place.setTarifAnnuel(tarifAnnuel);
+            place.setTarifJournalier(tarifJournalier);
 
             long prochainNumero = placesExistantes + i;
             place.setNumero("Place n°" + prochainNumero);

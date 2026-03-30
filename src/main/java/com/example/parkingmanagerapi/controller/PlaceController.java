@@ -20,7 +20,9 @@ public class PlaceController {
     public ResponseEntity<List<Place>> genererPlaces(@RequestBody GenerationPlaceRequest request) {
         List<Place> placesCrees = placeService.creerMultiplePlaces(
                 request.getParkingId(),
-                request.getQuantite()
+                request.getQuantite(),
+                request.getTarifAnnuel(),
+                request.getTarifJournalier()
         );
         return ResponseEntity.ok(placesCrees);
     }
