@@ -7,8 +7,11 @@ import com.example.parkingmanagerapi.repository.PlaceRepository;
 import com.example.parkingmanagerapi.repository.ParkingRepository;
 import com.example.parkingmanagerapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,4 +68,10 @@ public class PlaceService {
 
         return placeRepository.save(place);
     }
+
+    @Transactional(readOnly = true)
+    public List<Place> getPlacesByParkingId(Long parkingId) {
+        return placeRepository.findByParking_IdParking(parkingId);
+    }
+
 }

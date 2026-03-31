@@ -26,4 +26,10 @@ public class PlaceController {
         );
         return ResponseEntity.ok(placesCrees);
     }
+
+    @GetMapping("/getPlaceByParkingId/{parkingId}")
+    public ResponseEntity<List<Place>> getPlacesByParking(@PathVariable Long parkingId) {
+        List<Place> places = placeService.getPlacesByParkingId(parkingId);
+        return ResponseEntity.ok(places);
+    }
 }

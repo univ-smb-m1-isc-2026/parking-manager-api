@@ -48,7 +48,7 @@ Accept: application/json
 Cache-Control: no-cache
 
 ### Supprimer un parking (Exemple ID 2)
-DELETE {{baseUrl}}/api/parking/deleteParking/2
+DELETE {{baseUrl}}/api/parking/deleteParking/3
 Authorization: Bearer {{authToken}}
 
 ### --- PLACES ---
@@ -59,11 +59,17 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "parkingId": 1,
+  "parkingId": 3,
   "quantite": 15,
   "tarifJournalier": 15,
   "tarifAnnuel":200
 }
+
+### Récupérer les places à partir d'un parkingId (Exemple ID 3)
+GET {{baseUrl}}/api/place/getPlaceByParkingId/3
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
 
 ### --- DEMANDES PERMANANTES ---
 
@@ -75,11 +81,11 @@ Content-Type: application/json
 {
   "user": { "idUser": 1 },
   "entreprise": { "idEntreprise": 1 },
-  "place": { "idPlace": 1 }
+  "place": { "idPlace": 40 }
 }
 
 ### Accepter une demande (ID 1)
-PATCH {{baseUrl}}/api/demandePermanante/1/accepter
+PATCH {{baseUrl}}/api/demandePermanante/3/accepter
 Authorization: Bearer {{authToken}}
 
 ### Refuser une demande (ID 1)

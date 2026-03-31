@@ -1,5 +1,6 @@
 package com.example.parkingmanagerapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Parking {
     @JoinColumn(name = "id_entreprise", nullable = false)
     private Entreprise entreprise;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Place> places;
 }
