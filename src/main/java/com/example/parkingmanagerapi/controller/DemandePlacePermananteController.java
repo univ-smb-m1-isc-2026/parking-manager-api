@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/demandePermanante")
 @RequiredArgsConstructor
@@ -37,5 +39,15 @@ public class DemandePlacePermananteController {
     @PatchMapping("/{id}/refuser")
     public ResponseEntity<DemandePlacePermanante> refuser(@PathVariable Long id) {
         return ResponseEntity.ok(demandeService.refuserDemande(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<DemandePlacePermanante>> getAllDemandes() {
+        return ResponseEntity.ok(demandeService.getAllDemandes());
+    }
+
+    @GetMapping("/entreprise/{idEntreprise}")
+    public ResponseEntity<List<DemandePlacePermanante>> getByEntrepriseId(@PathVariable Long idEntreprise) {
+        return ResponseEntity.ok(demandeService.getDemandesByEntrepriseId(idEntreprise));
     }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DemandePlacePermananteService {
@@ -63,5 +65,15 @@ public class DemandePlacePermananteService {
                 .orElseThrow(() -> new RuntimeException("Demande non trouvée"));
         demande.setEtat(0);
         return demandeRepository.save(demande);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DemandePlacePermanante> getAllDemandes() {
+        return demandeRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<DemandePlacePermanante> getDemandesByEntrepriseId(Long idEntreprise) {
+        return demandeRepository.findByEntreprise_IdEntreprise(idEntreprise);
     }
 }

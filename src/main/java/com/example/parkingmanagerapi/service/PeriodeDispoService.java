@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PeriodeDispoService {
@@ -30,5 +32,15 @@ public class PeriodeDispoService {
             throw new RuntimeException("Cette période n'existe pas");
         }
         periodeDispoRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<PeriodeDispo> getAllPeriodes() {
+        return periodeDispoRepository.findAll();
+    }
+
+    @Transactional
+    public List<PeriodeDispo> getPeriodesByEntrepriseId(Long idEntreprise) {
+        return periodeDispoRepository.findByEntrepriseId(idEntreprise);
     }
 }

@@ -59,14 +59,14 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "parkingId": 3,
+  "parkingId": 4,
   "quantite": 15,
   "tarifJournalier": 15,
   "tarifAnnuel":200
 }
 
-### Récupérer les places à partir d'un parkingId (Exemple ID 3)
-GET {{baseUrl}}/api/place/getPlaceByParkingId/3
+### Récupérer les places à partir d'un parkingId (Exemple ID 4)
+GET {{baseUrl}}/api/place/getPlaceByParkingId/4
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -81,7 +81,7 @@ Content-Type: application/json
 {
   "user": { "idUser": 1 },
   "entreprise": { "idEntreprise": 1 },
-  "place": { "idPlace": 40 }
+  "place": { "idPlace": 55 }
 }
 
 ### Accepter une demande (ID 1)
@@ -90,6 +90,14 @@ Authorization: Bearer {{authToken}}
 
 ### Refuser une demande (ID 1)
 PATCH {{baseUrl}}/api/demandePermanante/1/refuser
+Authorization: Bearer {{authToken}}
+
+### Récupérer TOUTES les demandes permanantes (ALL)
+GET {{baseUrl}}/api/demandePermanante/all
+Authorization: Bearer {{authToken}}
+
+### Récupérer les demandes permanantes d'une entreprise (Exemple ID 1)
+GET {{baseUrl}}/api/demandePermanante/entreprise/1
 Authorization: Bearer {{authToken}}
 
 ### --- PERIODES DISPO ---
@@ -102,9 +110,17 @@ Content-Type: application/json
 {
   "start": "2026-04-01T08:00:00",
   "end": "2026-04-01T18:00:00",
-  "place": { "idPlace": 1 }
+  "place": { "idPlace": 55 }
 }
 
 ### Supprimer une période (ID 1)
 DELETE {{baseUrl}}/api/periodes/1
+Authorization: Bearer {{authToken}}
+
+### Récupérer TOUTES les périodes de disponibilité (ALL)
+GET {{baseUrl}}/api/periodes/all
+Authorization: Bearer {{authToken}}
+
+### Récupérer les périodes de dispo d'une entreprise (Exemple ID 1)
+GET {{baseUrl}}/api/periodes/entreprise/1
 Authorization: Bearer {{authToken}}
