@@ -36,4 +36,27 @@ public class AuthController {
     public String signIn(@RequestBody User loginRequest) {
         return authService.login(loginRequest.getMail(), loginRequest.getPassword());
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/social-login")
+    public String socialLogin(@RequestBody User socialRequest) {
+        System.out.println("uwu");
+        // 1. Vérifier si l'utilisateur existe déjà
+        return userRepository.findByMail(socialRequest.getMail())
+            .map(user -> {
+                return "Utilisateur existant";
+            })
+            .orElseGet(() -> {
+                // 2. Création du nouvel utilisateur (Salarié sans entreprise au départ)
+                User newUser = new User();
+                newUser.setMail(socialRequest.getMail());
+                newUser.setName(socialRequest.getName());
+                newUser.setSurname(socialRequest.getSurname());
+                newUser.setStatus(false);
+                newUser.setPassword(passwordEncoder.encode("OAUTH_USER_" + Math.random()));
+
+                userRepository.save(newUser);
+                return "Nouvel utilisateur créé";
+            });
+    }
 }
