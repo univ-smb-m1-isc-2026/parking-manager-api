@@ -1,6 +1,7 @@
 package com.example.parkingmanagerapi.controller;
 
 import com.example.parkingmanagerapi.dto.RegisterEntrepriseRequest;
+import com.example.parkingmanagerapi.dto.UserRequest;
 import com.example.parkingmanagerapi.entity.Entreprise;
 import com.example.parkingmanagerapi.repository.EntrepriseRepository;
 import com.example.parkingmanagerapi.entity.User;
@@ -39,8 +40,7 @@ public class AuthController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/social-login")
-    public String socialLogin(@RequestBody User socialRequest) {
-        System.out.println("uwu");
+    public String socialLogin(@RequestBody UserRequest socialRequest) {
         // 1. Vérifier si l'utilisateur existe déjà
         return userRepository.findByMail(socialRequest.getMail())
             .map(user -> {
@@ -52,6 +52,8 @@ public class AuthController {
                 newUser.setMail(socialRequest.getMail());
                 newUser.setName(socialRequest.getName());
                 newUser.setSurname(socialRequest.getSurname());
+                Entreprise entreprise = entrepriseRepository.findById(socialRequest.getEntrepriseId()).get();
+                newUser.setEntreprise(entreprise);
                 newUser.setStatus(false);
                 newUser.setPassword(passwordEncoder.encode("OAUTH_USER_" + Math.random()));
 
