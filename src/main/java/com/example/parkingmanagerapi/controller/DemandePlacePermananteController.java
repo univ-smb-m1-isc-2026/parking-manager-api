@@ -1,5 +1,6 @@
 package com.example.parkingmanagerapi.controller;
 
+import com.example.parkingmanagerapi.dto.CreateDemandeRequest;
 import com.example.parkingmanagerapi.entity.DemandePlacePermanante;
 import com.example.parkingmanagerapi.service.DemandePlacePermananteService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class DemandePlacePermananteController {
     private final DemandePlacePermananteService demandeService;
 
     @PostMapping
-    public ResponseEntity<DemandePlacePermanante> creer(@RequestBody DemandePlacePermanante demande) {
-        return ResponseEntity.ok(demandeService.creerDemande(demande));
+    public ResponseEntity<DemandePlacePermanante> creer(@RequestBody CreateDemandeRequest request) {
+        return ResponseEntity.ok(demandeService.creerDemande(request));
     }
 
     @PutMapping("/{id}")
