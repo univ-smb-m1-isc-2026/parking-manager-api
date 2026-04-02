@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface PlaceRepository extends JpaRepository<Place, Long> {
     long countByParkingIdParking(Long parkingId);
     List<Place> findByParking_IdParking(Long parkingId);
+    List<Place> findByUserIdUser(Long userId);
     Optional<Place> findFirstByParkingIdParkingAndEtatFalse(Long parkingId);
 }

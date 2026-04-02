@@ -70,6 +70,11 @@ GET {{baseUrl}}/api/place/getPlaceByParkingId/4
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
+### Récupérer les places à partir d'un userId (Exemple ID 4)
+GET {{baseUrl}}/api/place/getPlaceByUserId/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
 
 ### --- DEMANDES PERMANANTES ---
 

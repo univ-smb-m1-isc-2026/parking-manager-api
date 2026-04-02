@@ -32,4 +32,10 @@ public class PlaceController {
         List<Place> places = placeService.getPlacesByParkingId(parkingId);
         return ResponseEntity.ok(places);
     }
+
+    @GetMapping("/getPlaceByUserId/{userId}")
+    public ResponseEntity<List<Place>> getPlacesByUser(@PathVariable Long userId) {
+        List<Place> places = placeService.getPlacesByUserId(userId);
+        return ResponseEntity.ok(places);
+    }
 }

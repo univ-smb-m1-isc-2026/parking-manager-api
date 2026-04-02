@@ -74,4 +74,9 @@ public class PlaceService {
         return placeRepository.findByParking_IdParking(parkingId);
     }
 
+    @Transactional(readOnly = true)
+    public List<Place> getPlacesByUserId(Long userId) {
+        return placeRepository.findByUserIdUser(userId);
+    }
+
 }
