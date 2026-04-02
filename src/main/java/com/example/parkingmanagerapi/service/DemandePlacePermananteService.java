@@ -42,7 +42,7 @@ public class DemandePlacePermananteService {
         demande.setUser(user);
         demande.setEntreprise(entreprise);
         demande.setPlace(place);
-        demande.setEtat(0);
+        demande.setEtat(1);
 
         return demandeRepository.save(demande);
     }
