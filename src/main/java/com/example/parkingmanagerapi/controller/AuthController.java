@@ -7,10 +7,16 @@ import com.example.parkingmanagerapi.repository.EntrepriseRepository;
 import com.example.parkingmanagerapi.entity.User;
 import com.example.parkingmanagerapi.repository.UserRepository;
 import com.example.parkingmanagerapi.service.AuthService;
+import com.example.parkingmanagerapi.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,6 +27,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final EntrepriseRepository entrepriseRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @PostMapping("/register-entreprise")
     public String registerBoss(@RequestBody RegisterEntrepriseRequest request) {
@@ -38,27 +45,54 @@ public class AuthController {
         return authService.login(loginRequest.getMail(), loginRequest.getPassword());
     }
 
-    @CrossOrigin(origins = "*")
+    // Crée une petite classe interne pour la réponse ou utilise une Map
     @PostMapping("/social-login")
-    public String socialLogin(@RequestBody UserRequest socialRequest) {
-        // 1. Vérifier si l'utilisateur existe déjà
-        return userRepository.findByMail(socialRequest.getMail())
-            .map(user -> {
-                return "Utilisateur existant";
-            })
-            .orElseGet(() -> {
-                // 2. Création du nouvel utilisateur (Salarié sans entreprise au départ)
-                User newUser = new User();
-                newUser.setMail(socialRequest.getMail());
-                newUser.setName(socialRequest.getName());
-                newUser.setSurname(socialRequest.getSurname());
-                Entreprise entreprise = entrepriseRepository.findById(socialRequest.getEntrepriseId()).get();
-                newUser.setEntreprise(entreprise);
-                newUser.setStatus(false);
-                newUser.setPassword(passwordEncoder.encode("OAUTH_USER_" + Math.random()));
+    public ResponseEntity<?> socialLogin(@RequestBody UserRequest socialRequest) {
+        User user = userRepository.findByMail(socialRequest.getMail())
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setMail(socialRequest.getMail());
+                    newUser.setName(socialRequest.getName());
+                    newUser.setSurname(socialRequest.getSurname());
+                    newUser.setStatus(false);
+                    newUser.setPassword(passwordEncoder.encode("OAUTH_" + Math.random()));
+                    if (socialRequest.getEntrepriseId() != null) {
+                        entrepriseRepository.findById(socialRequest.getEntrepriseId()).ifPresent(newUser::setEntreprise);
+                    }
+                    return userRepository.save(newUser);
+                });
 
-                userRepository.save(newUser);
-                return "Nouvel utilisateur créé";
-            });
+        String token = jwtService.generateToken(user.getMail(), 0L, user.getName(), "false");
+
+        // On renvoie un objet JSON au lieu d'un simple String
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("idUser", user.getIdUser()); // L'ID numérique que Postman utilise
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserByMail(@RequestParam("mail") String mail) {
+        java.util.Optional<User> userOpt = userRepository.findByMail(mail);
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Utilisateur non trouvé en base de données.");
+        }
+
+        User user = userOpt.get();
+        Map<String, Object> response = new HashMap<>();
+        response.put("idUser", user.getIdUser());
+        response.put("name", user.getName());
+        response.put("surname", user.getSurname());
+        response.put("mail", user.getMail());
+
+        if (user.getEntreprise() != null) {
+            response.put("entrepriseId", user.getEntreprise().getIdEntreprise());
+        }
+
+        // 4. On renvoie la Map dans une réponse OK
+        return ResponseEntity.ok(response);
     }
 }
