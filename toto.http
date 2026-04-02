@@ -100,6 +100,10 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/api/demandePermanante/entreprise/1
 Authorization: Bearer {{authToken}}
 
+### Récupérer les demandes permanantes d'un user (Exemple ID 1)
+GET {{baseUrl}}/api/demandePermanante/user/2
+Authorization: Bearer {{authToken}}
+
 ### --- PERIODES DISPO ---
 
 ### Ajouter une période de disponibilité

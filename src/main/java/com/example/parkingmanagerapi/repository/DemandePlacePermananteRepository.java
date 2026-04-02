@@ -10,4 +10,5 @@ import java.util.List;
 public interface DemandePlacePermananteRepository extends JpaRepository<DemandePlacePermanante, Long> {
 
     List<DemandePlacePermanante> findByEntreprise_IdEntreprise(Long idEntreprise);
+    List<DemandePlacePermanante> findByUserIdUser(Long idUser);
 }

@@ -51,4 +51,9 @@ public class DemandePlacePermananteController {
     public ResponseEntity<List<DemandePlacePermanante>> getByEntrepriseId(@PathVariable Long idEntreprise) {
         return ResponseEntity.ok(demandeService.getDemandesByEntrepriseId(idEntreprise));
     }
+
+    @GetMapping("/user/{idUser}")
+    public ResponseEntity<List<DemandePlacePermanante>> getByUserId(@PathVariable Long idUser) {
+        return ResponseEntity.ok(demandeService.getDemandesByUserId(idUser));
+    }
 }

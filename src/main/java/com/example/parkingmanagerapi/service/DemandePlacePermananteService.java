@@ -90,4 +90,9 @@ public class DemandePlacePermananteService {
     public List<DemandePlacePermanante> getDemandesByEntrepriseId(Long idEntreprise) {
         return demandeRepository.findByEntreprise_IdEntreprise(idEntreprise);
     }
+
+    @Transactional(readOnly = true)
+    public List<DemandePlacePermanante> getDemandesByUserId(Long idUser) {
+        return demandeRepository.findByUserIdUser(idUser);
+    }
 }
