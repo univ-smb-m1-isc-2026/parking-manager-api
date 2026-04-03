@@ -38,6 +38,7 @@ public class UserService {
         user.setSurname(userDetails.getSurname());
         user.setMail(userDetails.getMail());
         user.setEntreprise(userDetails.getEntreprise());
+        user.setStatus(userDetails.getStatus());
         // On ne met à jour le password que s'il est fourni (et on le hache !)
         if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
